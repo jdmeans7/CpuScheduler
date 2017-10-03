@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03d6bbf9-9bb0-4220-8cbb-0fd922bbb6de" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/IODevice.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CPU.java" afterPath="$PROJECT_DIR$/src/CPU.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/OS.java" afterPath="$PROJECT_DIR$/src/OS.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -81,6 +78,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -264,7 +266,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1506969307013</updated>
-      <workItem from="1506969313812" duration="1252000" />
+      <workItem from="1506969313812" duration="1470000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1506969382716</created>
@@ -280,11 +282,18 @@
       <option name="project" value="LOCAL" />
       <updated>1507042679581</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Finished set up of project.">
+      <created>1507043580968</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1507043580968</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1252000" />
+    <option name="totallyTimeSpent" value="1470000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -328,7 +337,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="Add classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add classes" />
+    <MESSAGE value="Finished set up of project." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished set up of project." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
