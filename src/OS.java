@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class OS {
     public CPU cpu;
-    //public IOdevice io;
+    public IODevice io;
     public boolean isCPUAvailable;
     //public ProcessTable process_Table;
     public ArrayList<Process> New_Queue;
