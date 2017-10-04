@@ -1,7 +1,47 @@
 public class PCB {
-    //To do: PCB data structure of a process
+    //ToDo: PCB data structure of a process
     //for example: Process_id, Arrive_time, state, PositionOfNextInstructionToExecute(PC value)and so on
     String id;
     double arriveTime;
     int next;
+    String state;
+    int arriveOrder;
+    String code;
+    int priority;
+    public PCB(String id,int arriveOrder,int priority, String code){
+        this.id = id;
+        this.arriveOrder = arriveOrder;
+        this.priority = priority;
+        this.code = code;
+        state = "new";
+        arriveTime = System.currentTimeMillis();
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public double getArriveTime() {
+        return arriveTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getNext() {
+        return next;
+    }
+
+    public int getArriveOrder() {
+        return arriveOrder;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public String getCode() {
+        return code;
+    }
 }
