@@ -33,6 +33,13 @@ public class OS {
             Ready_Queue.add(new Process(New_Queue.get(i)));
         }
 
+        /*test of string to i[] of code
+        int[] a = Ready_Queue.get(0).getCodeA();
+        for(int i = 0;i<a.length;i++){
+            System.out.println(a[i]);
+        }
+        */
+
         //Give user choice of sorting algorithm
         Scanner uScan = new Scanner(System.in);
         boolean done = false;
@@ -40,19 +47,38 @@ public class OS {
             System.out.println("Which sorting algorithm should be used?");
             System.out.println("1. FCFS");
             System.out.println("2. Round Robin");
-            System.out.println("3. Last one");
+            System.out.println("3. Static Priority");
             int choice = uScan.nextInt();
+
             if (choice == 1) {
                 done = true;
-                //ToDo: code for FCFS alg
-            } else if (choice == 2) {
+                /*ToDo: code for FCFS alg:
+                 Runnable processes are kept in a first-in, first-out  ready  queue.
+                 FCFS  is  non-preemptive;  once  a  process  begins running on a CPU,
+                 it will continue running until it either complete or blocks for I/O.
+                  */
+            }
+
+            else if (choice == 2) {
                 done = true;
-                //ToDo: Code for RR alg
-            } else if (choice == 3) {
+                /*ToDo: Code for RR alg:
+                Similar   to   FCFS,   except   preemptive.   Each   process   is
+                assigned a time slice when it is scheduled. At the end of the time slice, if the
+                process  is  still  running,  the  process  is  preempted,  and  moved  to  the  tail  of
+                the ready queue.
+                */
+            }
+
+            else if (choice == 3) {
                 done = true;
-                //ToDo: Code for last alg
+                /*ToDo: Code for static priority alg:
+                 The processes with the highest priorities always get the CPU.
+                 Lower-priority  processes  may  be  preempted  if  a  process  with  a  higher  priority becomes runnable.
+                 */
             } else System.out.println("Invalid input");
         }
+
+
         //ToDo: OS class
         //Read the txt input file, for each line,create a process and record its arrival time
         //Put each process in New_Q queue initially then put them in Ready_Q

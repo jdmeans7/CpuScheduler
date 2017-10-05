@@ -4,12 +4,12 @@ import java.util.Random;
 public class IODevice {
     public IODevice(ArrayList<Process> Wait_Queue) {}
 
-    public boolean BusyOrNot;
+    public boolean BusyOrNot = false;
 
     //Always pick one process from Wait_Queue to execute
     public String execute(Process p) {
         BusyOrNot = true;
-        for(int i = 0; i<8;i++){ //p.getioburstnumber
+        for(int i = 0; i<p.getBurstNum();i++){ //p.getioburstnumber
             bubbleSort();
         }
         //CallBubble Sort()for IO_bursttimes and then return “ready”
