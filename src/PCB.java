@@ -14,6 +14,7 @@ public class PCB {
         this.code = code;
         state = "new";
         arriveTime = System.currentTimeMillis();
+        next = 0;
     }
 
     public void setId(String id) {

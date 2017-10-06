@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class CPU {
     public boolean BusyOrNot;
     public int PC; //Your CPU only has one register PC
@@ -11,8 +13,17 @@ public class CPU {
     //ToDo: execute method
     public Pair execute(Process p) {
         BusyOrNot = true;
-
-    /*
+        int time = (int)System.currentTimeMillis();
+        for(int i = 0;i<p.getBurstNum();i++){
+            bubbleSort();
+            if(((int)System.currentTimeMillis()-time)>timeslice){ //if time taken is greater than the time alloted, sets the burst number to the original burst num minus the amount of times bubble sort was run and returns the process to the ready queue
+                p.setBurstNum(p.getBurstNum()-(i+1));
+                return (new Pair(p.getPcb_data().getNext(),"ready"));
+            }
+        }
+        if((p.getPcb_data().getNext()+1) > p.getCodeA().length) return (new Pair(p.getPcb_data().getNext(), "terminated")); //If there are no more burst numbers to be read, puts process in terminated queue.
+        else return (new Pair((p.getPcb_data().getNext()+1),"wait"));
+        /*
         read the CPU burst number, say #,from the position PositionOfNextInstructionToExecute of P.
         Repeat calling Bubble Sort() for # times and then continue.
 
@@ -26,10 +37,26 @@ public class CPU {
         from the ready queue and sent it to I/O queue)
     */
 
-    return new Pair(0,"a");
     }
     public boolean isCPUBusy() {
         return BusyOrNot;
     }
 
+    public void bubbleSort() {
+        Random rand = new Random();
+        int[] arr = new int[10];
+        for(int i = 0;i<arr.length;i++){
+            arr[i] = rand.nextInt(100);
+        }
+        int n = arr.length;
+        for (int i = 0; i < n-1; i++)
+            for (int j = 0; j < n-i-1; j++)
+                if (arr[j] > arr[j+1])
+                {
+                    // swap temp and arr[i]
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+    }
 }

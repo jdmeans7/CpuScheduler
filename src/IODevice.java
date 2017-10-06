@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class IODevice {
-    public IODevice(ArrayList<Process> Wait_Queue) {}
+    public IODevice() {}
 
     public boolean BusyOrNot = false;
 

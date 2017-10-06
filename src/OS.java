@@ -8,14 +8,14 @@ import java.util.Scanner;
 
 public class OS {
     public static void main(String[] args) {
-        CPU cpu;
-        IODevice io;
+        CPU cpu = new CPU(5);
+        IODevice io = new IODevice();
         boolean isCPUAvailable;
         //public ProcessTable process_Table;
         ArrayList<PCB> New_Queue = new ArrayList<>();
         ArrayList<Process> Ready_Queue = new ArrayList<>();
-        ArrayList<Process> Wait_Queue;
-        ArrayList<Process> Terminated_Queue;
+        ArrayList<Process> Wait_Queue = new ArrayList<>();
+        ArrayList<Process> Terminated_Queue = new ArrayList<>();
 
         //Read text file and convert lines to PCB objects, add those PCB objects to New_Queue
         File f = new File("C:\\Users\\jason\\IdeaProjects\\CpuScheduler\\src\\test");
@@ -48,7 +48,7 @@ public class OS {
             System.out.println("1. FCFS");
             System.out.println("2. Round Robin");
             System.out.println("3. Static Priority");
-            int choice = uScan.nextInt();
+            int choice = Integer.parseInt(uScan.nextLine());
 
             if (choice == 1) {
                 done = true;
@@ -57,6 +57,19 @@ public class OS {
                  FCFS  is  non-preemptive;  once  a  process  begins running on a CPU,
                  it will continue running until it either complete or blocks for I/O.
                   */
+                boolean finished = false;
+                int count = 0;
+                while(!finished){
+                    Process p = Ready_Queue.remove(count);
+                    Pair pair = cpu.execute(p);
+                    if(pair.getState() == "wait"){
+                        p.getPcb_data().setNext(p.getPcb_data().getNext()+1);
+                        Wait_Queue.add(p);
+                    }
+                    else if(pair.getState() == "ready"){
+                        Ready_Queue.add(p);
+                    }
+                }
             }
 
             else if (choice == 2) {
@@ -85,5 +98,6 @@ public class OS {
         //Always check whether the CPU is idle or not; if yes, use your scheduler algorithm to select a process from the Ready_Queue for CPU execution
         //According to the return value of CPU execute(), put the process into the corresponding queue.
         //Record the time of every operation for computing your latency and response
+        //Thread for CPU and IO classes to run in parallel
     }
 }

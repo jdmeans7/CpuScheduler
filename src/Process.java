@@ -16,6 +16,12 @@ public class Process {
         return codeA[Pcb_data.getNext()];
     }
 
+    //setBurstNum is used solely to set the number in the int array of code to a lower number if the time slice runs out and
+    //bubble sort did not run the amount of times it was supposed to.
+    public void setBurstNum(int a){
+        codeA[Pcb_data.getNext()] = a;
+    }
+
     public int[] getCodeA() {
         return codeA;
     }
