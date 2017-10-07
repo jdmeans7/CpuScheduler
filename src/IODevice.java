@@ -2,16 +2,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class IODevice {
-    public IODevice() {}
+	
+    public IODevice(ArrayList<Process> Wait_Queue) {}
 
-    public boolean BusyOrNot = false;
-
+    public boolean BusyOrNot;
+    int burstAmount;
+    
     //Always pick one process from Wait_Queue to execute
     public String execute(Process p) {
         BusyOrNot = true;
-        for(int i = 0; i<p.getBurstNum();i++){ //p.getioburstnumber
+        burstAmount = p.getBurstNum();
+        for(int i = 0; i<burstAmount;i++){ //p.getioburstnumber
             bubbleSort();
         }
+        p.nextBurstNum();
         //CallBubble Sort()for IO_bursttimes and then return “ready”
         return "ready";
     }
