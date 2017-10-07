@@ -9,42 +9,66 @@ public class CPU {
         timeslice = settimeslice;
         BusyOrNot = false;
     }
+    //ToDo: pair method, will need to create new class that contains an int and a string to return both
 
-    //ToDo: execute method
     public Pair execute(Process p) {
         BusyOrNot = true;
-        int time = (int)System.currentTimeMillis();
-        for(int i = 0;i<p.getBurstNum();i++){
-            bubbleSort();
-            if(((int)System.currentTimeMillis()-time)>timeslice){ //if time taken is greater than the time alloted, sets the burst number to the original burst num minus the amount of times bubble sort was run and returns the process to the ready queue
-                p.setBurstNum(p.getBurstNum()-(i+1));
-                return (new Pair(p.getPcb_data().getNext(),"ready"));
-            }
+        for (int i = 0;i < p.getBurstNum(); i++){
+        	bubbleSort();
         }
-        if((p.getPcb_data().getNext()+1) > p.getCodeA().length) return (new Pair(p.getPcb_data().getNext(), "terminated")); //If there are no more burst numbers to be read, puts process in terminated queue.
-        else return (new Pair((p.getPcb_data().getNext()+1),"wait"));
-        /*
+        if (p.getCount()+3 > p.getCode().length()){
+        	return (new Pair(p.getBurstNum(), "terminated"));
+        }
+    	else{
+        	p.nextBurstNum();
+        	return (new Pair(p.getBurstNum(), "wait"));
+        }
+    }    
+    
+    public Pair executeRoundRobin(Process p) {
+        BusyOrNot = true;
+        if (p.getBurstNum() <= timeslice){
+        	for (int i = 0;i < p.getBurstNum(); i++){
+            	bubbleSort();
+            }
+        }else if (p.getBurstNum() > timeslice){
+        	for (int i = 0;i < timeslice; i++){
+            	bubbleSort();
+            }
+        	//these print statements test if the round robin is working correctly
+        	//System.out.println("1. " + p.getBurstNum());
+        	p.setBurstNum(p.getBurstNum()-timeslice);
+        	//System.out.println("2. " + p.getBurstNum());
+    		return (new Pair(p.getBurstNum(), "ready"));
+        }
+
+        if (p.getCount()+3 > p.getCode().length()){
+        	return (new Pair(p.getBurstNum(), "terminated"));
+        }else{
+        	p.nextBurstNum();
+        	return (new Pair(p.getBurstNum(), "wait"));
+        }
+    }    
+    /*
         read the CPU burst number, say #,from the position PositionOfNextInstructionToExecute of P.
         Repeat calling Bubble Sort() for # times and then continue.
-
         If the code runs out, return (PositionOfNextInstructionToExecute, “terminated”), then OS put it back to the terminated queue.
-
-        If the slice of time (restricted number of calling Bubble sort() for a process each time) runs out,
-        return (PositionOfNextInstructionToExecute, “ready”), then OS put it back to the ready queue,
-        subtracting the amount of times bubbles sort was done from the burst number.
-
-        Otherwise, return (PositionOfNextInstructionToExecute+1, “wait”)(namely, P has an I/O request and then OS remove it
-        from the ready queue and sent it to I/O queue)
+        If the slice of time (restricted number of calling Bubble sort() for a process each time) runs out, return (PositionOfNextInstructionToExecute+1, “ready”), then OS put it back to the ready queue.
+        Otherwise, return (PositionOfNextInstructionToExecute+1, “wait”)(namely, P has an I/O request and then OS remove it from the ready queue and sent it to I/O queue)
     */
-
-    }
+    
+    
     public boolean isCPUBusy() {
         return BusyOrNot;
     }
-
+    
+    public void setCPUBusy(boolean bool){
+    	BusyOrNot = bool;
+    }
+    
     public void bubbleSort() {
         Random rand = new Random();
-        int[] arr = new int[10];
+        int[] arr = new int[10000];
         for(int i = 0;i<arr.length;i++){
             arr[i] = rand.nextInt(100);
         }
@@ -59,4 +83,5 @@ public class CPU {
                     arr[j+1] = temp;
                 }
     }
+
 }
