@@ -1,62 +1,90 @@
 import java.util.Random;
 
-public class CPU {
+public class CPU implements Runnable{
     public boolean BusyOrNot;
+    public boolean done = false;
     public int PC; //Your CPU only has one register PC
     public int timeslice;
-
-    public CPU(int settimeslice) {
+    private String threadName;
+    private Thread t;
+    
+    Process currentProcess;
+    int burstNum;
+    Pair returnPair;
+    String currentState;
+    int choice;
+    
+    public CPU(int settimeslice, String thread, int userChoice) {
         timeslice = settimeslice;
         BusyOrNot = false;
+        threadName = thread;
+        choice = userChoice;
     }
     //ToDo: pair method, will need to create new class that contains an int and a string to return both
 
-    public Pair execute(Process p) {
-        BusyOrNot = true;
-        for (int i = 0;i < p.getBurstNum(); i++){
-        	bubbleSort();
-        }
-        if (p.getCount()+3 > p.getCode().length()){
-        	return (new Pair(p.getBurstNum(), "terminated"));
-        }
-    	else{
-        	p.nextBurstNum();
-        	return (new Pair(p.getBurstNum(), "wait"));
-        }
-    }    
+    public void setCurretProcess(Process p){
+    	currentProcess = p;
+    }
     
-    public Pair executeRoundRobin(Process p) {
-        BusyOrNot = true;
-        if (p.getBurstNum() <= timeslice){
-        	for (int i = 0;i < p.getBurstNum(); i++){
-            	bubbleSort();
+    public Process getCurretProcess(){
+    	return currentProcess;
+    }
+    
+    public Pair currentReturnPair(){
+    	return new Pair(burstNum, currentState);
+    }
+    
+    public void execute(){
+    	if (choice == 2){
+            if (currentProcess.getBurstNum() <= timeslice){
+            	for (int i = 0;i < currentProcess.getBurstNum(); i++){
+                	bubbleSort();
+                }
+            	currentProcess.nextBurstNum();
+            	burstNum = currentProcess.getBurstNum();
+        		currentState = "wait";
+            }else if (currentProcess.getBurstNum() > timeslice){
+            	for (int i = 0;i < timeslice; i++){
+                	bubbleSort();
+                }
+            	//these print statements test if the round robin is working correctly
+            	System.out.println("1. " + currentProcess.getBurstNum());
+            	currentProcess.setBurstNum(currentProcess.getBurstNum()-timeslice);
+            	System.out.println("2. " + currentProcess.getBurstNum());
+        		burstNum = currentProcess.getBurstNum();
+        		currentState = "ready";
             }
-        }else if (p.getBurstNum() > timeslice){
-        	for (int i = 0;i < timeslice; i++){
-            	bubbleSort();
-            }
-        	//these print statements test if the round robin is working correctly
-        	//System.out.println("1. " + p.getBurstNum());
-        	p.setBurstNum(p.getBurstNum()-timeslice);
-        	//System.out.println("2. " + p.getBurstNum());
-    		return (new Pair(p.getBurstNum(), "ready"));
-        }
 
-        if (p.getCount()+3 > p.getCode().length()){
-        	return (new Pair(p.getBurstNum(), "terminated"));
-        }else{
-        	p.nextBurstNum();
-        	return (new Pair(p.getBurstNum(), "wait"));
-        }
-    }    
-    /*
-        read the CPU burst number, say #,from the position PositionOfNextInstructionToExecute of P.
-        Repeat calling Bubble Sort() for # times and then continue.
-        If the code runs out, return (PositionOfNextInstructionToExecute, “terminated”), then OS put it back to the terminated queue.
-        If the slice of time (restricted number of calling Bubble sort() for a process each time) runs out, return (PositionOfNextInstructionToExecute+1, “ready”), then OS put it back to the ready queue.
-        Otherwise, return (PositionOfNextInstructionToExecute+1, “wait”)(namely, P has an I/O request and then OS remove it from the ready queue and sent it to I/O queue)
-    */
+            if (currentProcess.getCount()+3 > currentProcess.getCode().length()){
+            	burstNum = currentProcess.getBurstNum();
+        		currentState = "terminated";
+            }
+    	}else{
+    		for (int i = 0;i < currentProcess.getBurstNum(); i++){
+    			bubbleSort();
+    		}
+    		if (currentProcess.getCount()+3 > currentProcess.getCode().length()){
+    			burstNum = currentProcess.getBurstNum();
+        		currentState = "terminated";
+    		}
+    		else{
+    			currentProcess.nextBurstNum();
+    			burstNum = currentProcess.getBurstNum();
+        		currentState = "wait";
+    		}
+    	}
+    }
     
+    
+    @Override
+	public void run() {
+    	if(!done){	
+    		try {
+    			execute();
+    		}catch(Exception e){
+    		}
+    	}
+    }    
     
     public boolean isCPUBusy() {
         return BusyOrNot;
@@ -66,9 +94,13 @@ public class CPU {
     	BusyOrNot = bool;
     }
     
+    public void setDone(boolean bool){
+    	done = bool;
+    }
+    
     public void bubbleSort() {
         Random rand = new Random();
-        int[] arr = new int[10000];
+        int[] arr = new int[1000];
         for(int i = 0;i<arr.length;i++){
             arr[i] = rand.nextInt(100);
         }
@@ -83,5 +115,12 @@ public class CPU {
                     arr[j+1] = temp;
                 }
     }
-
+	
+	 public void start () {
+	      System.out.println("Starting " +  threadName );
+	      if (t == null) {
+	         t = new Thread (this, threadName);
+	         t.start ();
+	      }
+	   }
 }
