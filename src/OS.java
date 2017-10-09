@@ -7,14 +7,16 @@ import java.util.Scanner;
 
 public class OS {
     public static void main(String[] args) {
-        CPU cpu = new CPU(5);
-        boolean isCPUAvailable;
+       // CPU cpu = new CPU(5);
+        //CPU cpu = new CPU(5, "CPUthread");
         //public ProcessTable process_Table;
-        ArrayList<PCB> New_Queue = new ArrayList<>();
+        
+    	ArrayList<PCB> New_Queue = new ArrayList<>();
         ArrayList<Process> Ready_Queue = new ArrayList<>();
         ArrayList<Process> Wait_Queue = new ArrayList<>();
         ArrayList<Process> Terminated_Queue = new ArrayList<>();
-        IODevice io = new IODevice(Wait_Queue);
+        IODevice io = new IODevice(Wait_Queue, "IOthread");
+        int choice = 0;
 
         File f = new File("C:\\Users\\amayz\\workspace\\CpuScheduler\\test.txt");
         try {
@@ -38,26 +40,34 @@ public class OS {
             System.out.println("Which sorting algorithm should be used?");
             System.out.println("1. FCFS");
             System.out.println("2. Round Robin");
-            System.out.println("3. Static Priority");
-            int choice = uScan.nextInt();
+            System.out.println("3. Static Priority"); 
+            choice = uScan.nextInt();
+            CPU cpu = new CPU(5, "CPUthread", choice);
             if (choice == 1) {
+        		cpu.start();
+        		io.start();
                 boolean valueInReadyQueue = true;
+                cpu.setDone(false);
                 while (valueInReadyQueue == true){
                 	if (Ready_Queue.size() == 0){
             			valueInReadyQueue = false;
+            			cpu.setDone(true);
             			System.out.println("First Come First Serve Algorithm Finished.");
-            		}else //if(cpu.BusyOrNot == false)
-            			{
+            		}else{
                 		Pair pairReturn;
                 		Process firstValueInReady = Ready_Queue.get(0);
-                		pairReturn = cpu.execute(firstValueInReady);
+                		cpu.setCurretProcess(firstValueInReady);
+                		cpu.run();
+                		pairReturn = cpu.currentReturnPair();
                 		String stateCPU = pairReturn.getState();
                 		
                 		if (stateCPU.equalsIgnoreCase("wait")){
                 			Ready_Queue.remove(firstValueInReady);
                 			Wait_Queue.add(firstValueInReady);
+                			io.setCurretProcess(firstValueInReady);
                 			System.out.println(Wait_Queue.get(0).getPriority());
-                			String waitState = io.execute(Wait_Queue.get(0));
+                			io.run();
+                			String waitState = io.getCurrentState();
                 			if (waitState.equalsIgnoreCase("ready")){
                 				Ready_Queue.add(Wait_Queue.get(0));
                 				Wait_Queue.remove(0);
@@ -76,23 +86,31 @@ public class OS {
                 }
                 done = true;
             }else if (choice == 2) {
+            	cpu.start();
+        		io.start();
             	 boolean valueInReadyQueue = true;
+     			cpu.setDone(false);
                  while (valueInReadyQueue == true){
                  	if (Ready_Queue.size() == 0){
              			valueInReadyQueue = false;
+            			cpu.setDone(true);
              			System.out.println("Round Robin Algorithm Finished.");
              		}else //if(cpu.BusyOrNot == false)
              			{
                  		Pair pairReturn;
                  		Process firstValueInReady = Ready_Queue.get(0);
-                 		pairReturn = cpu.executeRoundRobin(firstValueInReady);
-                 		String stateCPU = pairReturn.getState();
+                 		cpu.setCurretProcess(firstValueInReady);
+                		cpu.run();
+                		pairReturn = cpu.currentReturnPair();
+                		String stateCPU = pairReturn.getState();
                  		
                  		if (stateCPU.equalsIgnoreCase("wait")){
                  			Ready_Queue.remove(firstValueInReady);
                  			Wait_Queue.add(firstValueInReady);
-                 			System.out.println(Wait_Queue.get(0).getPriority());
-                 			String waitState = io.execute(Wait_Queue.get(0));
+                 			io.setCurretProcess(firstValueInReady);
+                			System.out.println(Wait_Queue.get(0).getPriority());
+                			io.run();
+                			String waitState = io.getCurrentState();
                  			if (waitState.equalsIgnoreCase("ready")){
                  				Ready_Queue.add(Wait_Queue.get(0));
                  				Wait_Queue.remove(0);
@@ -114,24 +132,32 @@ public class OS {
                  done = true;
                 //ToDo: Code for RR alg
             } else if (choice == 3) {
+            	cpu.start();
+        		io.start();
                 Collections.sort(Ready_Queue);
                 boolean valueInReadyQueue = true;
+    			cpu.setDone(false);
                 while (valueInReadyQueue == true){
                 	if (Ready_Queue.size() == 0){
             			valueInReadyQueue = false;
+            			cpu.setDone(true);
             			System.out.println("Static Priority Algorithm Finished.");
             		}else //if(cpu.BusyOrNot == false)
             			{
                 		Pair pairReturn;
                 		Process firstValueInReady = Ready_Queue.get(0);
-                		pairReturn = cpu.execute(firstValueInReady);
+                		cpu.setCurretProcess(firstValueInReady);
+                		cpu.run();
+                		pairReturn = cpu.currentReturnPair();
                 		String stateCPU = pairReturn.getState();
                 		
                 		if (stateCPU.equalsIgnoreCase("wait")){
                 			Ready_Queue.remove(firstValueInReady);
                 			Wait_Queue.add(firstValueInReady);
+                			io.setCurretProcess(firstValueInReady);
                 			System.out.println(Wait_Queue.get(0).getPriority());
-                			String waitState = io.execute(Wait_Queue.get(0));
+                			io.run();
+                			String waitState = io.getCurrentState();
                 			if (waitState.equalsIgnoreCase("ready")){
                 				Ready_Queue.add(Wait_Queue.get(0));
                 				Wait_Queue.remove(0);
