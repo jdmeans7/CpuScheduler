@@ -48,9 +48,9 @@ public class CPU implements Runnable{
                 	bubbleSort();
                 }
             	//these print statements test if the round robin is working correctly
-            	System.out.println("1. " + currentProcess.getBurstNum());
+            	//System.out.println("1. " + currentProcess.getBurstNum());
             	currentProcess.setBurstNum(currentProcess.getBurstNum()-timeslice);
-            	System.out.println("2. " + currentProcess.getBurstNum());
+            	//System.out.println("2. " + currentProcess.getBurstNum());
         		burstNum = currentProcess.getBurstNum();
         		currentState = "ready";
             }
