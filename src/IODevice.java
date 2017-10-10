@@ -28,6 +28,10 @@ public class IODevice implements Runnable {
     }
     
     public void execute(){
+    	if (currentProcess.haveYouIOBurstedYet == false){
+    		currentProcess.setHaveYouIOBursted(true);
+    		currentProcess.setResTime(System.currentTimeMillis());
+    	}
     	burstAmount = currentProcess.getBurstNum();
         for(int i = 0; i<burstAmount;i++){ //p.getioburstnumber
             bubbleSort();
