@@ -30,11 +30,14 @@ public class OS {
             Scanner scan = new Scanner(bf);
             int check = 0;
             while(scan.hasNextLine()) {
-            	if(check == 0) scan.nextLine();
-				else {
-					String[] line = scan.nextLine().split(",");
-					New_Queue.add(new PCB(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), line[3]));
-				}
+            	if(check == 0) {
+			scan.nextLine();
+			check++;
+		}
+		else {
+			String[] line = scan.nextLine().split(",");
+			New_Queue.add(new PCB(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), line[3]));
+		}
             }
         } catch (Exception e){}
         
