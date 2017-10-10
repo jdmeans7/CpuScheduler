@@ -6,6 +6,10 @@ public class Process implements Comparable<Process>{
     String state;
     public int[] codeA;
     int count;
+    public long startTime;
+    public long resTime;
+    public long finalTime;
+    boolean haveYouIOBurstedYet;
     
     //to do: other variables help you computing the latency, response
     public Process(PCB process) {
@@ -20,10 +24,27 @@ public class Process implements Comparable<Process>{
     	for(int i = 0;i<code.length();i++){
             codeA[i] = Integer.parseInt((code.substring(i,i+1)));
         }
+    	startTime = System.currentTimeMillis();
     }
 
     public String getState() {
         return state;
+    }
+    
+    public long getStartTime(){
+    	return startTime;
+    }
+    
+    public long getResTime(){
+    	return resTime;
+    }
+    
+    public void setHaveYouIOBursted(boolean b){
+    	haveYouIOBurstedYet = b;
+    }
+    
+    public void setResTime(long l){
+    	resTime = l;
     }
     
     public void setState(String state) {
