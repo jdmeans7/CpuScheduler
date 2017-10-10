@@ -28,9 +28,13 @@ public class OS {
         try {
             BufferedReader bf = new BufferedReader(new FileReader(f));
             Scanner scan = new Scanner(bf);
+            int check = 0;
             while(scan.hasNextLine()) {
-                String[] line = scan.nextLine().split(" ");
-                New_Queue.add(new PCB(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]),line[3]));
+            	if(check == 0) scan.nextLine();
+				else {
+					String[] line = scan.nextLine().split(",");
+					New_Queue.add(new PCB(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), line[3]));
+				}
             }
         } catch (Exception e){}
         
@@ -204,10 +208,10 @@ public class OS {
             System.out.println("\n******* REPORT *******\n");
             for(int i = 0; i<latency.size(); i++){
             	lsum += latency.get(i);
-            	//System.out.println("-----" + "Process " + i+1 + "-----");
-            	//System.out.println("Latency: " + latency.get(i));
+            	System.out.println("-----" + "Process " + i+1 + "-----");
+            	System.out.println("Latency: " + latency.get(i));
             	rsum += resTimes.get(i);
-            	//System.out.println("Response Time: " + resTimes.get(i));
+            	System.out.println("Response Time: " + resTimes.get(i));
             }
             Collections.sort(latency);
             Collections.sort(resTimes);
